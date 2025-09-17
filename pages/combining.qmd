@@ -5,5 +5,62 @@ toc: TRUE
 editor_options: 
   chunk_output_type: inline
 ---
+Read in wine data
+```{r}
+library(readxl)
+library(tidyverse)
+white.wine <- read_excel("../white-wine.xlsx")
+white.wine
+```
 
-Answers go here!
+Read in data from second sheet
+```{r}
+wine.variables <- read_excel("../white-wine.xlsx", sheet = excel_sheets("../white-wine.xlsx")[2])
+wine.variables
+```
+
+Overwrite column names
+```{r}
+wine.variables <- pull(wine.variables, 1)
+colnames(white.wine) <- wine.variables
+white.wine
+```
+
+Add column to indicate wines are white
+```{r}
+white.wine <- white.wine %>%
+  mutate(wine_type = "white")
+white.wine
+```
+
+Read in red wine data
+```{r}
+red.wine <- read_delim("https://www4.stat.ncsu.edu/online/datasets/red-wine.csv", delim = ";")
+colnames(red.wine) <- wine.variables
+red.wine
+```
+
+Add column for red
+```{r}
+red.wine <- red.wine %>%
+  mutate(wine_type = "red")
+red.wine
+```
+
+Combine data sets
+```{r}
+wine.data <- bind_rows(white.wine, red.wine)
+wine.data
+```
+
+Chain to filter and sort data
+```{r}
+wine.data <- wine.data %>%
+  filter(quality > 6.5 & alcohol < 132) %>%
+  arrange(desc(quality)) %>%
+  select(contains("acid"), alcohol, wine_type, quality) %>%
+  group_by(quality) %>%
+  mutate(alcohol_mean = mean(alcohol), alcohol_std = sd(alcohol))
+wine.data
+```
+

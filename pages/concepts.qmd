@@ -5,6 +5,32 @@ toc: TRUE
 editor_options: 
   chunk_output_type: inline
 ---
+```{r}
+library(tidyverse)
+```
 
 
-Answers go here!
+1. If your working directory is myfolder/homework/, what relative path would you specify to get the file located at myfolder/MyData.csv?
+
+> I would use ../MyData.csv
+
+2. What are the major benefits of using R projects?
+
+> R integrates well with Git, and keeps workflow organized (which helps with reproducibility). Additionally, R is free which makes it much more accessible to students and professionals alike. 
+
+3. What is git and what is github?
+
+> Git is version control software that can track changes made to files. Github is a, online hosting platform for git repositories. 
+
+4. What are the two main differences between a tibble and a data.frame?
+
+> A tibble uses fancy printing that gives information on the number of observations, the columns, a shows only a few rows of data. A tibble also does not coerce down to a vector when you subset to only one column using [. 
+
+5. Rewrite the following nested function call using BaseR’s chaining operator:
+```{r}
+iris |>
+  as_tibble() |>
+  select(starts_with("Petal"), Species) |>
+  filter(Petal.Length < 1.55) |>
+  arrange(Species)
+```
